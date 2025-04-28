@@ -89,7 +89,7 @@ public class ProductoController {
         return ResponseEntity.ok(productoResponse);
     }
     @GetMapping("/find")
-    public ResponseEntity<?> findPersonaById(@RequestBody ProductoRequest productoRequest) {
+    public ResponseEntity<?> findProductoById(@RequestBody ProductoRequest productoRequest) {
         logger.info(">find " + productoRequest.toString());
         ProductoResponse productoResponse;
         try {
