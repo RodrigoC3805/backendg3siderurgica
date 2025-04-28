@@ -16,11 +16,11 @@ import dsw.backendg3siderurgica.dto.ProductoResponse;
 import dsw.backendg3siderurgica.service.ProductoService;
 import dsw.backendg3siderurgica.utils.ErrorResponse;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @RestController
 @RequestMapping(path="api/v1/producto")
@@ -56,7 +56,51 @@ public class ProductoController {
         if (productoResponse==null) 
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(ErrorResponse.builder().message("Producto not found"));
-        return ResponseEntity.ok(productoResponse);        
+        return ResponseEntity.ok(productoResponse);
     }
-    
+    @PutMapping
+    public ResponseEntity<?> updateProducto(@RequestBody ProductoRequest productoRequest) {
+        logger.info(">update " + productoRequest.toString());
+        ProductoResponse productoResponse;
+        try {
+            productoResponse = productoService.updateProducto(productoRequest);
+        } catch (Exception e) {
+            logger.error("Error inesperado", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (productoResponse == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponse.builder().message("Producto not found"));
+        return ResponseEntity.ok(productoResponse);
+    }
+    @DeleteMapping
+    public ResponseEntity<?> deleteProducto(@RequestBody ProductoRequest productoRequest) {
+        logger.info(">delete " + productoRequest.toString());
+        ProductoResponse productoResponse;
+        try {
+            productoResponse=productoService.findProducto(productoRequest.getIdProducto());
+            if (productoResponse==null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.builder().message("Producto not found for deletion"));
+            productoService.deleteProducto(productoResponse.getIdProducto());
+        } catch (Exception e) {
+            logger.error("Error inesperado", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return ResponseEntity.ok(productoResponse);
+    }
+    @GetMapping("/find")
+    public ResponseEntity<?> findPersonaById(@RequestBody ProductoRequest productoRequest) {
+        logger.info(">find " + productoRequest.toString());
+        ProductoResponse productoResponse;
+        try {
+            productoResponse=productoService.findProducto(productoRequest.getIdProducto());
+        } catch (Exception e) {
+            logger.error("Error inesperado", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (productoResponse==null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ErrorResponse.builder().message("Producto not found"));
+        return ResponseEntity.ok(productoResponse);
+    }
 }
