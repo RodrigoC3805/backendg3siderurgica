@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmpleadoRequest {
-    private Integer idEmpleado;
-    private Integer idTipoEmpleado;
-    private String email;
-    private String password;
+public class ClienteRequest {
+    private Integer idCliente;
+    private Integer idTipoCliente;
     private String nombre;
-    private Integer telefono;
-    private String direccion;
-
+    private String ruc;
 }
