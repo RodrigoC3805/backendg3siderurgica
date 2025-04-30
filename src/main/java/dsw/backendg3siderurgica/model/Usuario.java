@@ -1,6 +1,5 @@
 package dsw.backendg3siderurgica.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,11 +19,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "usuario")
-public class Empleado {
+public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="idusuario")
-    private Integer idEmpleado;
+    private Integer idusuario;
     private String email;
     private String password;
     private String nombre;
@@ -33,5 +31,5 @@ public class Empleado {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idtipousuario", referencedColumnName = "idtipousuario")
-    private TipoEmpleado tipoEmpleado; // Relación con TipoEmpleado
+    private TipoUsuario tipoUsuario; // Relación con TipoUsuario
 }

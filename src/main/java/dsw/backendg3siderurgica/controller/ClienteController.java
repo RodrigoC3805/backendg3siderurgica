@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dsw.backendg3siderurgica.dto.ClienteRequest;
 import dsw.backendg3siderurgica.dto.ClienteResponse;
 import dsw.backendg3siderurgica.service.ClienteService;
 import dsw.backendg3siderurgica.utils.ErrorResponse;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping(path="api/v1/cliente")
@@ -36,4 +40,20 @@ public class ClienteController {
                     .body(ErrorResponse.builder().message("Cliente not found"));
         return ResponseEntity.ok(listaClienteResponse);
     }
+
+    @PostMapping()
+    public ResponseEntity<?> insertCliente(@RequestBody ClienteRequest clienteRequest) {
+        ClienteResponse clienteResponse;
+        try {
+            clienteResponse = clienteService.insertCliente(clienteRequest);
+        } catch (Exception e) {
+            logger.error("Error inesperado", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (clienteResponse == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ErrorResponse.builder().message("Cliente not inserted"));
+            return ResponseEntity.ok(clienteResponse);
+    }
+    
 }

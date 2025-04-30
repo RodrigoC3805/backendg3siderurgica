@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tipousuario")
-public class TipoEmpleado {
+public class TipoUsuario {
     @Id
     @Column(name="idtipousuario")
-    private Integer idTipoEmpleado;
+    private Integer idTipoUsuario;
     private String descripcion;
 }

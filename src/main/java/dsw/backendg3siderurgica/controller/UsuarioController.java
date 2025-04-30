@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dsw.backendg3siderurgica.dto.EmpleadoResponse;
-import dsw.backendg3siderurgica.service.EmpleadoService;
+import dsw.backendg3siderurgica.dto.UsuarioResponse;
+import dsw.backendg3siderurgica.service.UsuarioService;
 import dsw.backendg3siderurgica.utils.ErrorResponse;
 
 @RestController
 @RequestMapping(path="api/v1/usuario") 
-public class EmpleadoController {
+public class UsuarioController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    EmpleadoService empleadoService;
+    UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<?> getEmpleados() {
-        List<EmpleadoResponse> listaEmpleadoResponse = null;
+    public ResponseEntity<?> getUsuarios() {
+        List<UsuarioResponse> listaUsuarioResponse = null;
         try {
-            listaEmpleadoResponse = empleadoService.listEmpleados();
+            listaUsuarioResponse = usuarioService.listUsuarios();
         } catch (Exception e) {
-            logger.error("Error al obtener la lista de empleados", e);
+            logger.error("Error al obtener la lista de usuarios", e);
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if(listaEmpleadoResponse.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.builder().message("No se encontraron empleados").build());
-            return ResponseEntity.ok(listaEmpleadoResponse);
+        if(listaUsuarioResponse.isEmpty()) 
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.builder().message("No se encontraron usuarios").build());
+            return ResponseEntity.ok(listaUsuarioResponse);
     }
 }
